@@ -1,0 +1,23 @@
+{
+	"name": "elite42/breezeway",
+	"description": "PHP SDK library for Breezeway API",
+	"minimum-stability": "stable",
+	"license": "MIT",
+	"autoload": {
+		"psr-4": {
+			"elite42\\breezeway\\": "src/"
+		}
+	},
+	"authors": [
+		{
+			"name": "Andrew Sauder",
+			"email": "andrew@sauder.email"
+		}
+	],
+	"require": {
+		"php": ">=8.2",
+		"guzzlehttp/guzzle": "^7.9",
+		"monolog/monolog": "^3.7",
+		"andrewsauder/json-deserialize": "^v2.5"
+	}
+}
