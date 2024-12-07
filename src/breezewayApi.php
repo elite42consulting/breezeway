@@ -139,8 +139,10 @@ class breezewayApi {
 		}
 		catch( GuzzleException|\JsonException $e ) {
 			if( $_attempt<3 ) {
-				$this->logger->error( $httpMethod . ' ' . $apiUrl . ' failed: ' . $e->getCode() . ' ' . $e->getMessage() );
-				$this->logger->error( '--waiting 3 seconds and then sending request again' );
+				if( $this->settings->isDebugLogging() ) {
+					$this->logger->error( $httpMethod . ' ' . $apiUrl . ' failed: ' . $e->getCode() . ' ' . $e->getMessage() );
+					$this->logger->error( '--waiting 3 seconds and then sending request again' );
+				}
 				sleep( 3 );
 				return $this->call( $httpMethod, $apiUrl, $params, $_attempt + 1 );
 			}
@@ -154,7 +156,9 @@ class breezewayApi {
 	 */
 	private function getBreezewayAccessToken(): string {
 		if(!empty($this->jwtAccessToken)) {
-			$this->logger->debug( 'Auth: use in memory JWT Access Token' );
+			if( $this->settings->isDebugLogging() ) {
+				$this->logger->debug( 'Auth: use in memory JWT Access Token' );
+			}
 			return $this->jwtAccessToken;
 		}
 
@@ -166,14 +170,18 @@ class breezewayApi {
 		}
 		$cachedResponse = $this->cache->get( 'breezeway', $callUrl, null, 39600 ); //cache for 11 hours - it expires after 12
 		if($cachedResponse!=null) {
-			$this->logger->debug( 'Auth: use file cached JWT Access Token' );
+			if( $this->settings->isDebugLogging() ) {
+				$this->logger->debug( 'Auth: use file cached JWT Access Token' );
+			}
 			$this->jwtAccessToken = $cachedResponse->access_token;
 			$this->jwtRefreshToken = $cachedResponse->refresh_token;
 			return $this->jwtAccessToken;
 		}
 
 		//get a new jwt
-		$this->logger->debug( 'Auth: getting new JWT Access Token' );
+		if( $this->settings->isDebugLogging() ) {
+			$this->logger->debug( 'Auth: getting new JWT Access Token' );
+		}
 		try {
 			$client   = new \GuzzleHttp\Client();
 			$options  = [
@@ -191,11 +199,15 @@ class breezewayApi {
 			}
 		}
 		catch(\Exception|GuzzleException $e) {
-			$this->logger->debug( 'Auth: failed to get new JWT Access Token' );
+			if( $this->settings->isDebugLogging() ) {
+				$this->logger->debug( 'Auth: failed to get new JWT Access Token' );
+			}
 			throw new breezewayException( 'Failed to get new access and refresh token', 1000, $e );
 		}
 
-		$this->logger->debug( 'Auth: use new JWT Access Token' );
+		if( $this->settings->isDebugLogging() ) {
+			$this->logger->debug( 'Auth: use new JWT Access Token' );
+		}
 
 		$this->jwtAccessToken = $body->access_token;
 		$this->jwtRefreshToken = $body->refresh_token;
@@ -275,7 +287,9 @@ class breezewayApi {
 				$callUrl = $this->settings->getUrl() . $url;
 			}
 
-			$this->logger->debug( 'Create cache ' . $method . ': ' . $callUrl, [] );
+			if( $this->settings->isDebugLogging() ) {
+				$this->logger->debug( 'Create cache ' . $method . ': ' . $callUrl, [] );
+			}
 			$this->cache->set( 'breezeway', $method . $callUrl, [], $value );
 		}
 	}
