@@ -511,4 +511,36 @@ class breezewayApi {
 		return $tasks;
 	}
 
+
+	/**
+	 * @param int $taskId
+	 *
+	 * @return \elite42\breezeway\types\taskRequirement[]
+	 * @throws \elite42\breezeway\breezewayException
+	 */
+	public function getTaskRequirements( int $taskId ): array {
+		$url = $this->buildUrl( '/inventory/v1/task/'.$taskId.'/requirements' );
+
+		//$cacheResponse = $this->getCacheResponse( __METHOD__, $url );
+		//if( $cacheResponse!==null ) {
+		//	return $cacheResponse;
+		//}
+
+		$apiResponses = $this->call( 'GET', $url );
+
+		$taskRequirements = [];
+		try {
+			foreach( $apiResponses as $apiResponse ) {
+				$taskRequirements[] = types\taskRequirement::jsonDeserialize( $apiResponse );
+			}
+		}
+		catch( jsonDeserializeException $e ) {
+			throw new breezewayException( 'Failed to convert JSON API response to \elite42\breezeway\types\taskRequirement', 500, $e );
+		}
+
+		$this->createCacheResponse( __METHOD__, $url, $taskRequirements );
+
+		return $taskRequirements;
+	}
+
 }

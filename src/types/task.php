@@ -14,10 +14,10 @@ class task extends jsonDeserialize {
 	/** @var \elite42\breezeway\types\task\cost[] $costs */
 	public array               $costs       = [];
 	public ?\DateTimeImmutable $created_at  = null;
-	public ?task\finishedBy             $created_by  = null;
+	public ?task\finishedBy    $created_by  = null;
 	public ?string             $description = null;
 	public ?\DateTimeImmutable $finished_at = null;
-	public ?task\finishedBy    $finishedBy  = null;
+	public ?task\finishedBy    $finished_by = null;
 
 	public ?int                $home_id               = null;
 	public ?int                $id                    = null;
