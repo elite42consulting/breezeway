@@ -21,7 +21,6 @@ class breezewayApiCache {
 	public function set( $wsdl, $method, $params, $returnValue ) : string {
 
 		$key = $this->generateKey( $wsdl, $method, $params );
-		error_log($key);
 		$this->collection[ $key ] = $returnValue;
 
 		$fileName = $this->cacheFilePath.'/'.$key.'.cache';

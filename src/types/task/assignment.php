@@ -13,7 +13,4 @@ class assignment extends jsonDeserialize {
 	public ?string $name                  = null;
 	public ?string $type_task_user_status = null;
 
-	public static function _beforeJsonDeserialize(object $data) {
-		error_log(json_encode($data));
-	}
 }
