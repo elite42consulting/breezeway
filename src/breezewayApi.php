@@ -161,6 +161,9 @@ class breezewayApi {
 		$callUrl = $this->settings->getUrl() . '/auth/v1/';
 
 		//check if our cached version is still valid
+		if(!isset($this->cache)) {
+			$this->cache = new breezewayApiCache( $this->settings->getCachePath() );
+		}
 		$cachedResponse = $this->cache->get( 'breezeway', $callUrl, null, 39600 ); //cache for 11 hours - it expires after 12
 		if($cachedResponse!=null) {
 			$this->logger->debug( 'Auth: use file cached JWT Access Token' );
@@ -521,10 +524,10 @@ class breezewayApi {
 	public function getTaskRequirements( int $taskId ): array {
 		$url = $this->buildUrl( '/inventory/v1/task/'.$taskId.'/requirements' );
 
-		//$cacheResponse = $this->getCacheResponse( __METHOD__, $url );
-		//if( $cacheResponse!==null ) {
-		//	return $cacheResponse;
-		//}
+		$cacheResponse = $this->getCacheResponse( __METHOD__, $url );
+		if( $cacheResponse!==null ) {
+			return $cacheResponse;
+		}
 
 		$apiResponses = $this->call( 'GET', $url );
 
