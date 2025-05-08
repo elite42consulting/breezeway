@@ -363,13 +363,14 @@ class breezewayApi {
 
 
 	/**
-	 * @param string|int $unitId
+	 * @param int $unitId
+	 * @param array $unit Json object with only updates
 	 *
 	 * @return \elite42\breezeway\types\unit
 	 * @throws \elite42\breezeway\breezewayException
 	 */
-	public function updateUnit( types\unit $unit ): types\unit {
-		$url = $this->buildUrl( '/inventory/v1/property/' . $unit->id );
+	public function updateUnit( int $unitId, array $unit ): types\unit {
+		$url = $this->buildUrl( '/inventory/v1/property/' . $unitId );
 
 		$apiResponse = $this->call( 'PATCH', $url, json_decode( json_encode( $unit ), true ) );
 
