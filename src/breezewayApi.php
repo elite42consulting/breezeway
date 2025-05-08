@@ -361,6 +361,30 @@ class breezewayApi {
 	}
 
 
+
+	/**
+	 * @param string|int $unitId
+	 *
+	 * @return \elite42\breezeway\types\unit
+	 * @throws \elite42\breezeway\breezewayException
+	 */
+	public function updateUnit( types\unit $unit ): types\unit {
+		$url = $this->buildUrl( '/inventory/v1/property/' . $unit->id );
+
+		$apiResponse = $this->call( 'PATCH', $url, json_decode( json_encode( $unit ), true ) );
+
+		try {
+			$unit = types\unit::jsonDeserialize( $apiResponse );
+		}
+		catch( jsonDeserializeException $e ) {
+			throw new breezewayException( 'Failed to convert JSON API response to \elite42\breezeway\types\unit', 500, $e );
+		}
+
+		return $unit;
+
+	}
+
+
 	/**
 	 * @param string|int $personId
 	 *

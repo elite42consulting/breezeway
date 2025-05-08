@@ -3,6 +3,7 @@
 namespace elite42\breezeway\types;
 
 use andrewsauder\jsonDeserialize\jsonDeserialize;
+use elite42\breezeway\types\unit\notes;
 
 class unit extends jsonDeserialize {
 
@@ -20,8 +21,7 @@ class unit extends jsonDeserialize {
 	public ?float  $longitude = null;
 	public ?string $name      = null;
 
-	/** @var array $notes */
-	public array $notes = [];
+	public ?notes $notes = null;
 
 	/** @var \elite42\breezeway\types\unit\photo[] $photos */
 	public array   $photos                         = [];
