@@ -33,6 +33,7 @@ class task extends jsonDeserialize {
 	public ?string             $scheduled_time        = null;
 	public ?\DateTimeImmutable $started_at            = null;
 	public ?task\finishedBy    $subdepartment         = null;
+	public ?string             $summary               = null;
 
 	/** @var \elite42\breezeway\types\task\supply[] $supplies */
 	public array $supplies = [];
