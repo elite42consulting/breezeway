@@ -16,8 +16,8 @@
 	],
 	"require": {
 		"php": ">=8.2",
-		"guzzlehttp/guzzle": "^7.9",
+		"guzzlehttp/guzzle": "^7.10",
 		"monolog/monolog": "^3.7",
-		"andrewsauder/json-deserialize": "^v2.5"
+		"andrewsauder/json-deserialize": "^v3.0"
 	}
 }
